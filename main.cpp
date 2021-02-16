@@ -3,41 +3,49 @@
 
 #define SIZE 20
 
-template <class T> 
+template <typename T> 
 class StackI {
-  T *arr;
-  int top;
-  int capacity;
+  public: 
+    virtual void push(T t) = 0;
+    virtual void pop() = 0;
+    virtual T peek() = 0;
+    virtual void print() = 0;
+};
+
+template <typename T>
+class Stack : public StackI <T> {
+
+  protected :
+    T *arr;
+    unsigned int capacity;
 
   public:
-    StackI(int size = SIZE);
+    Stack<T>();
+    Stack<T>(unsigned int n);
 
-    void push(T);
-    T pop();
+    void push(T t);
+    void pop();
     T peek();
     void print();
 
-    int size();
     bool EmptyStackException();
     bool FullStackException();
 
-    ~StackI() {
+    ~Stack() {
       delete [] arr;
     }
 };
 
 // constructor - initialization
-template <class T>
-StackI<T>::StackI(int size) 
+template <typename T>
+Stack<T>::Stack(unsigned int size) : capacity(size), top(-1) 
 {
   arr = new T[size];
-  capacity = size;
-  top = -1;
 }
 
 // to add an element to the stack
-template <class T>
-void StackI<T>::push(T t)
+template <typename T>
+void Stack<T>::push(T t)
 {
   if(FullStackException(top)){
     std::cout << "Stack is full, Program will be terminated\n" << std::endl;
@@ -48,8 +56,8 @@ void StackI<T>::push(T t)
 }
 
 //pop the top element of the stack
-template <class T>
-T StackI<T>::pop()
+template <typename T>
+T Stack<T>::pop()
 {
   if(EmptyStackException(top)){
     std::cout << "Stack is empty, Program will be terminated\n" << std::endl;
@@ -60,7 +68,7 @@ T StackI<T>::pop()
 }
 
 //return the top element
-template <class T>
+template <typename T>
 T StackI<T>::peek() {
 
   if(!EmptyStackException(top)) {
@@ -71,7 +79,7 @@ T StackI<T>::peek() {
   }
 } 
 
-template <class T>
+template <typename T>
 void StackI<T>::print() {
   std::cout << "" << std::endl;
 }
@@ -80,7 +88,7 @@ void StackI<T>::print() {
 
 int main(){
 
-StackI<int> test(5);
+Stack<int> test(5);
 
 test.push(5);
 
