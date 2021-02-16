@@ -5,7 +5,7 @@ template <typename T>
 class StackI {
   public: 
     virtual void push(T t) = 0;
-    virtual T pop() = 0;
+    virtual void pop() = 0;
     virtual T top() = 0;
     virtual void print() = 0;
 };
@@ -122,7 +122,7 @@ template <class T> void Stack<T>::print(){
 int main() {
     Stack <int> a (12);
     for(int i=1;i<a.get_size()+1;i++){
-        a.push(i);
+      a.push(i);
     }
     a.print();
     std::cout<<"\n";
