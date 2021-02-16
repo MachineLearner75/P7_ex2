@@ -1,5 +1,8 @@
 #include <iostream>
 
+
+
+
 template <class T> Stack<T>::Stack(){
     ptr = new T[20];
     size = 20;
