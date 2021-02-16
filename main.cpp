@@ -18,6 +18,7 @@ class Stack : public StackI <T> {
   protected :
     T *arr;
     unsigned int capacity;
+    int top;
 
   public:
     Stack<T>();
@@ -28,8 +29,8 @@ class Stack : public StackI <T> {
     T peek();
     void print();
 
-    bool EmptyStackException();
-    bool FullStackException();
+    bool isEmpty();
+    int FullStackException();
 
     ~Stack() {
       delete [] arr;
@@ -37,51 +38,88 @@ class Stack : public StackI <T> {
 };
 
 // constructor - initialization
-template <typename T>
+template <class T>
 Stack<T>::Stack(unsigned int size) : capacity(size), top(-1) 
 {
   arr = new T[size];
 }
 
+template <class T>
+int Stack<T>::FullstackException() {
+  int notempty = 0;
+
+  for(int i = 0; i < capacity; i++) {
+
+    if(arr[i] != 0){
+        notempty++;
+    }
+  }
+  return notempty;
+}
+
 // to add an element to the stack
-template <typename T>
+template <class T>
 void Stack<T>::push(T t)
 {
-  if(FullStackException(top)){
+  int notempty = FullStackException();
+  if(notempty != capacity){
+      std::cout << "Inserting " << t << std::endl;
+      arr[++top] = t;
+  } else {
     std::cout << "Stack is full, Program will be terminated\n" << std::endl;
     exit(EXIT_FAILURE);
   }
-  std::cout << "Inserting " << t << std::endl;
-  arr[++top] = t;
+
 }
 
 //pop the top element of the stack
-template <typename T>
-T Stack<T>::pop()
+template <class T>
+void Stack<T>::pop()
 {
-  if(EmptyStackException(top)){
+  int notempty = FullStackException();
+  if(notempty == 0){
     std::cout << "Stack is empty, Program will be terminated\n" << std::endl;
     exit(EXIT_FAILURE);
-  }
+  } else {
   std::cout << "Popping out " << peek() << std::endl;
   return arr[top--];
+  }
+}
+
+template <class T> bool Stack<T>::isEmpty(){
+    bool isempty=false;
+    if(FullStackException()==0){
+        isempty=true;
+    }
+    return isempty;
 }
 
 //return the top element
-template <typename T>
-T StackI<T>::peek() {
+template <class T>
+T Stack<T>::peek() {
 
-  if(!EmptyStackException(top)) {
+  if(isEmpty() == false){
+    return top;
 
-    return arr[top];
   } else {
+    std::cout << "Stack is empty, we can't display the top element" << std::endl;
     exit(EXIT_FAILURE);
   }
+
 } 
 
-template <typename T>
-void StackI<T>::print() {
-  std::cout << "" << std::endl;
+template <class T>
+void Stack<T>::print() {
+
+  if(isEmpty()) {
+    std::cout << "Stack is empty, we can't show it" << std::endl;
+
+  } else {
+
+    for(int i = 0; i < capacity; i++){
+      std::cout << arr[i] << ",";
+    }
+  }
 }
 
 //
