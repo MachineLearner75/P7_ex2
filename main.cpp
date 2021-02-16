@@ -6,7 +6,7 @@ class StackI {
   public: 
     virtual void push(T t) = 0;
     virtual T pop() = 0;
-    virtual T peek() = 0;
+    virtual T top() = 0;
     virtual void print() = 0;
 };
 
@@ -68,7 +68,8 @@ int Stack<T>::getNonEmpty() {
     return noempt;
 }
 
-template <class T> void Stack<T>::push(T t){
+template <class T> 
+void Stack<T>::push(T t){
   
     int noempt=getNonEmpty();
         if(noempt!=size){
@@ -78,16 +79,20 @@ template <class T> void Stack<T>::push(T t){
         }
     }
 
-template <class T> void Stack<T>::pop(){
+template <class T> 
+void Stack<T>::pop(){
+
     int noempt=getNonEmpty();
     if(noempt==0){
         std::cout << "It's an empty Stack! "<< std::endl;
     }
     else{
-        ptr[size-noempt]=NULL;
+        ptr[size-noempt] = NULL;
     }
 }
-template <class T> T Stack<T>::top(){
+template <class T> 
+T Stack<T>::top(){
+
     if(isEmpty()==false){
         return ptr[size-getNonEmpty()];
     }else{
@@ -95,7 +100,9 @@ template <class T> T Stack<T>::top(){
         return NULL;
     }
 }
-template <class T> bool Stack<T>::isEmpty(){
+template <class T> 
+bool Stack<T>::isEmpty(){
+
     bool isempty=false;
     if(getNonEmpty()==0){
         isempty=true;
@@ -113,7 +120,7 @@ template <class T> void Stack<T>::print(){
 }
 
 int main() {
-    Stack <int> a(12);
+    Stack <int> a (12);
     for(int i=1;i<a.get_size()+1;i++){
         a.push(i);
     }
