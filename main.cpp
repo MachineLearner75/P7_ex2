@@ -7,7 +7,7 @@ template <typename T>
 class StackI {
   public: 
     virtual void push(T t) = 0;
-    virtual void pop() = 0;
+    virtual T pop() = 0;
     virtual T peek() = 0;
     virtual void print() = 0;
 };
@@ -15,7 +15,6 @@ class StackI {
 template <typename T>
 class Stack : public StackI <T> {
 
-  protected :
     T *arr;
     unsigned int capacity;
     int top;
@@ -25,12 +24,13 @@ class Stack : public StackI <T> {
     Stack<T>(unsigned int n);
 
     void push(T t);
-    void pop();
+    T pop();
     T peek();
     void print();
 
     bool isEmpty();
     int FullStackException();
+    int Counter();
 
     ~Stack() {
       delete [] arr;
@@ -45,7 +45,7 @@ Stack<T>::Stack(unsigned int size) : capacity(size), top(-1)
 }
 
 template <class T>
-int Stack<T>::FullstackException() {
+int Stack<T>::Counter() {
   int notempty = 0;
 
   for(int i = 0; i < capacity; i++) {
@@ -61,10 +61,11 @@ int Stack<T>::FullstackException() {
 template <class T>
 void Stack<T>::push(T t)
 {
-  int notempty = FullStackException();
+  int notempty = Counter();
   if(notempty != capacity){
       std::cout << "Inserting " << t << std::endl;
       arr[++top] = t;
+      std::cout << top << std::endl;
   } else {
     std::cout << "Stack is full, Program will be terminated\n" << std::endl;
     exit(EXIT_FAILURE);
@@ -74,9 +75,9 @@ void Stack<T>::push(T t)
 
 //pop the top element of the stack
 template <class T>
-void Stack<T>::pop()
+T Stack<T>::pop()
 {
-  int notempty = FullStackException();
+  int notempty = Counter();
   if(notempty == 0){
     std::cout << "Stack is empty, Program will be terminated\n" << std::endl;
     exit(EXIT_FAILURE);
@@ -88,7 +89,7 @@ void Stack<T>::pop()
 
 template <class T> bool Stack<T>::isEmpty(){
     bool isempty=false;
-    if(FullStackException()==0){
+    if(Counter()==0){
         isempty=true;
     }
     return isempty;
@@ -99,7 +100,7 @@ template <class T>
 T Stack<T>::peek() {
 
   if(isEmpty() == false){
-    return top;
+    return arr[capacity - Counter()];
 
   } else {
     std::cout << "Stack is empty, we can't display the top element" << std::endl;
@@ -126,8 +127,10 @@ void Stack<T>::print() {
 
 int main(){
 
-Stack<int> test(5);
+Stack<int> test(2);
 
 test.push(5);
+test.push(4);
+test.peek();
 
 }
